@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'maven-publish'
+    id 'kotlin-kapt'
+}
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+android {
+
+    compileSdk Android.compileSdkVersion
+
+    defaultConfig {
+        minSdk Android.minSdkVersion
+        targetSdk Android.targetSdkVersion
+        versionCode Android.versionCode
+        versionName Android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "proguard-rules.pro"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        useIR = true
+        jvmTarget = JavaVersion.VERSION_11
+        freeCompilerArgs += ["-Xskip-prerelease-check"]
+    }
+
+    afterEvaluate {
+        publishing {
+            // 当前版本依赖库版本号，这个jitpack不会使用到，只是我们开发者自己查看
+            // def versionName = "1.0"
+            publications {
+                // Creates a Maven publication called "release".
+                release(MavenPublication) {
+                    // Applies the component for the release build variant.
+                    from components.release // 表示发布 release（jitpack 都不会使用到）
+
+                    // You can then customize attributes of the publication as shown below.
+                    groupId = 'com.github.R-Gang' // 这个是依赖库的组 id
+                    artifactId = 'Tools-Utils' // 依赖库的名称（jitpack 都不会使用到）
+                    version = Android.versionName
+                }
+            }
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation Support.constraintlayout
+    implementation Support.appcompat
+    implementation Support.kotlin_stdlib_jdk8
+
+    implementation Dependencies.anko_commons
+    implementation Dependencies.anko_sdk25
+    implementation Dependencies.anko_sdk25_coroutines
+
+    // 常用基类封装
+//    implementation Dependencies.android_common
+
+}

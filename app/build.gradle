@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'// 注解的插件，添加此组件使用@Bindable注解
+}
+
+android {
+    compileSdk Android.compileSdkVersion
+
+    defaultConfig {
+        applicationId App.applicationId
+        minSdk Android.minSdkVersion
+        targetSdk Android.targetSdkVersion
+        versionCode Android.versionCode
+        versionName Android.versionName
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        // Java开发的情况
+        /*javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }*/
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation Dependencies.androidx_multidex
+
+    testImplementation Support.junit
+    androidTestImplementation Support.junit_ext
+    androidTestImplementation Support.espresso_core
+
+    implementation Support.appcompat
+    implementation Support.constraintlayout
+    implementation Support.kotlin_stdlib_jdk8
+
+
+
+
+    // okhttp
+     implementation project(path: ':tools')
+//    implementation 'com.github.R-Gang:Tools-Utils:v1.0.0-beta.6@aar'
+
+}
