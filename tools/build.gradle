@@ -46,7 +46,7 @@ android {
 
                     // You can then customize attributes of the publication as shown below.
                     groupId = 'com.github.R-Gang' // 这个是依赖库的组 id
-                    artifactId = 'Tools-Utils' // 依赖库的名称（jitpack 都不会使用到）
+                    artifactId = 'Tools-Common' // 依赖库的名称（jitpack 都不会使用到）
                     version = Android.versionName
                 }
             }
