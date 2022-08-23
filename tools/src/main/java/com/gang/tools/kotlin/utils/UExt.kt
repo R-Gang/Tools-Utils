@@ -60,21 +60,19 @@ var mToolsContext: Context? = null
 
 /**
  * 判断网络是否连接
- *
+ * 需加权限 ACCESS_NETWORK_STATE
  * @param context
  * @return
  */
 fun isNetConnected(): Boolean {
-    var connectivity: ConnectivityManager? = null
-    mToolsContext?.apply {
+    mToolsContext?.let {
         val connectivity: ConnectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            it.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = connectivity.activeNetworkInfo
         if (null != info && info.isConnected) {
             return info.state == NetworkInfo.State.CONNECTED
         }
     }
-
     return false
 }
 
@@ -724,6 +722,20 @@ fun <T : View> T.gone() {
 fun <T : View> T.hide() {
     visibility = View.INVISIBLE
 }
+
+fun View.visible(show: Boolean) {
+    this.visibility = if (show) View.VISIBLE else View.GONE
+}
+
+/*fun View.visible() {
+    this.visibility = View.VISIBLE
+}*/
+
+fun View.invisible() {
+    this.visibility = View.INVISIBLE
+}
+
+fun View.isShow() = this.visibility == View.VISIBLE
 
 
 var vClickTime = 0L

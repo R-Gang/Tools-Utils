@@ -25,7 +25,10 @@ import java.io.UnsupportedEncodingException
  * @CreateDate:     2020/8/3 17:28
  */
 
-fun getColor(@ColorRes resId: Int): Int? = mToolsContext?.getColor(resId)
+fun getColor(@ColorRes resId: Int?): Int? = resId?.let { mToolsContext?.getColor(it) }
+fun View.getColor(@ColorRes resId: Int): Int {
+    return ContextCompat.getColor(context, resId)
+}
 
 /**
  * 获取字符串
@@ -82,11 +85,15 @@ fun getStringOrDefault(
     }
 }
 
+fun View.getString(@StringRes resId: Int, vararg params: Any): String {
+    return context.getString(resId, *params)
+}
 
-fun getDrawable(@DrawableRes resId: Int): Context? =
-    mToolsContext?.apply {
-        ContextCompat.getDrawable(this, resId)
-    }
+fun getDrawable(@DrawableRes resId: Int): Drawable? =
+    mToolsContext?.let { ContextCompat.getDrawable(it, resId) }
+
+fun View.getDrawable(@DrawableRes id: Int?): Drawable? =
+    id?.let { context?.let { context -> ContextCompat.getDrawable(context, it) } }
 
 fun Context.getCompatDrawable(@DrawableRes id: Int?): Drawable? =
     id?.let { ContextCompat.getDrawable(this, it) }
@@ -112,6 +119,14 @@ fun getCompoundDrawableOrNull(@DrawableRes resId: Int?): Drawable? {
         }
     }
 }
+
+
+fun View.getCompoundDrawable(
+    @DrawableRes id: Int?,
+    width: Int? = null,
+    height: Int? = null,
+): Drawable? =
+    context?.getCompoundDrawable(id, width, height)
 
 /**
  * 获取 CompoundDrawable 用于 [androidx.appcompat.widget.AppCompatTextView.setCompoundDrawables]
