@@ -9,7 +9,7 @@ import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
 import androidx.annotation.DimenRes
-import com.gang.tools.kotlin.Config.TAG
+import com.gang.tools.kotlin.ToolsConfig.TAG
 import com.gang.tools.kotlin.utils.LogUtils
 import com.gang.tools.kotlin.utils.mToolsContext
 import java.lang.reflect.Method

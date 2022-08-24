@@ -1,7 +1,7 @@
 package com.tools.kotlin
 
 import android.app.Application
-import com.gang.tools.kotlin.Config
+import com.gang.tools.kotlin.ToolsConfig
 import com.gang.tools.kotlin.utils.initToolsUtils
 
 /**
@@ -15,7 +15,7 @@ import com.gang.tools.kotlin.utils.initToolsUtils
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        Config.isShowLog = BuildConfig.DEBUG
+        ToolsConfig.isShowLog = BuildConfig.DEBUG
 
         initToolsUtils(this)
     }

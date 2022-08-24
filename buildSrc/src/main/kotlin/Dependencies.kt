@@ -54,10 +54,6 @@ object Dependencies {
 
     const val androidx_multidex = "androidx.multidex:multidex:2.0.1" // Dex处理
 
-    const val cardview = "androidx.cardview:cardview:1.0.0@aar"
-    const val android_common = "com.github.R-Gang:Android-Common:v0.1.6-beta.6@aar"
-    // 常用类封装(以上为基本类关联依赖)
-
     // Anko Commons
     const val anko_commons = "org.jetbrains.anko:anko-commons:${Android.anko_version}"
     const val anko_sdk25 = "org.jetbrains.anko:anko-sdk25:${Android.anko_version}"

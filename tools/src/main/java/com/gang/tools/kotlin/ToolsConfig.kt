@@ -6,12 +6,12 @@ import androidx.databinding.ktx.BuildConfig
  *
  * @ProjectName:    tools
  * @Package:        com.gang.tools.kotlin
- * @ClassName:      Config
+ * @ClassName:      ToolsConfig
  * @Description:    项目配置参数
  * @Author:         haoruigang
  * @CreateDate:     2020/8/10 17:26
  */
-object Config {
+object ToolsConfig {
 
     const val TAG = "Tools-Utils"
 

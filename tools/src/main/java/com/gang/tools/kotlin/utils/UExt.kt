@@ -21,9 +21,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.gang.tools.kotlin.Config
-import com.gang.tools.kotlin.Config.TAG
-import com.gang.tools.kotlin.Config.toActivityRequestCode
+import com.gang.tools.kotlin.ToolsConfig
+import com.gang.tools.kotlin.ToolsConfig.TAG
+import com.gang.tools.kotlin.ToolsConfig.toActivityRequestCode
 import com.gang.tools.kotlin.weight.ToastCustom
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -106,7 +106,7 @@ private var toast: Toast? = null
  * @param msg
  */
 fun showToast(msg: String?) {
-    if (Config.isShowLog) {
+    if (ToolsConfig.isShowLog) {
         showToast(msg, Toast.LENGTH_SHORT)
     }
 }
@@ -118,7 +118,7 @@ fun showToast(msg: String?) {
  * @param duration Toast.LENGTH_LONG
  */
 fun showToast(msg: String?, duration: Int) {
-    if (Config.isShowLog) {
+    if (ToolsConfig.isShowLog) {
         if (toast == null) {
             toast = Toast.makeText(mToolsContext, msg, duration)
             toast?.setGravity(Gravity.CENTER, 0, 0)
@@ -634,24 +634,24 @@ fun pictureToVideo(pictureType: String): Int {
         if (pictureType.startsWith("video") ||
             pictureType.startsWith("mp4")
         ) {
-            return Config.TYPE_VIDEO
+            return ToolsConfig.TYPE_VIDEO
         } else if (pictureType.startsWith("audio")) {
-            return Config.TYPE_AUDIO
+            return ToolsConfig.TYPE_AUDIO
         } else if (pictureType.contains("pdf")) {
-            return Config.TYPE_PDF
+            return ToolsConfig.TYPE_PDF
         } else if (pictureType.contains("xls")) {
-            return Config.TYPE_XLS
+            return ToolsConfig.TYPE_XLS
         } else if (pictureType.contains("doc")) {
-            return Config.TYPE_DOC
+            return ToolsConfig.TYPE_DOC
         } else if (pictureType.contains("zip")) {
-            return Config.TYPE_ZIP
+            return ToolsConfig.TYPE_ZIP
         } else if (pictureType.contains("txt")) {
-            return Config.TYPE_TXT
+            return ToolsConfig.TYPE_TXT
         } else {
-            return Config.TYPE_FILE
+            return ToolsConfig.TYPE_FILE
         }
     }
-    return Config.TYPE_IMAGE
+    return ToolsConfig.TYPE_IMAGE
 }
 
 /**

@@ -11,7 +11,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.gang.tools.kotlin.Config
+import com.gang.tools.kotlin.ToolsConfig
 import com.gang.tools.kotlin.interfaces.Setter
 import java.io.BufferedReader
 import java.io.IOException
@@ -216,7 +216,7 @@ fun readAssetsText(context: Context, fileName: String?): String {
 //全局字体
 val typefaceAll: Typeface by lazy {
     Typeface.createFromAsset(mToolsContext?.assets,
-        Config.typefaceAll)
+        ToolsConfig.typefaceAll)
 }
 
 fun <T : View?, V> applyV(

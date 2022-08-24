@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             DateUtils.getCurTimeLong("yyyyMMddHHmmss") + UserManager.INSTANCE.userData.user_id + ".jpg"
         //Url
         if (mImageName != "") {
-            headImage = Config.OSS_URL + mImageName
+            headImage = ToolsConfig.OSS_URL + mImageName
         }*/
         // 阿里云使用方式
         // AliYunOss.getInstance(this)?.upload(mImageName, "", null)

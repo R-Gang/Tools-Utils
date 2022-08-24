@@ -18,7 +18,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.NonNull
-import com.gang.tools.kotlin.Config
+import com.gang.tools.kotlin.ToolsConfig
 import java.io.*
 import java.nio.channels.FileChannel
 import java.text.SimpleDateFormat
@@ -92,11 +92,11 @@ object FileUtils {
         var tmpFile: File? = null
         val suffixType: String
         when (type) {
-            Config.TYPE_IMAGE -> {
+            ToolsConfig.TYPE_IMAGE -> {
                 suffixType = if (TextUtils.isEmpty(format)) POSTFIX else format
                 tmpFile = File(folderDir, fileName + suffixType)
             }
-            Config.TYPE_VIDEO -> tmpFile =
+            ToolsConfig.TYPE_VIDEO -> tmpFile =
                 File(folderDir, fileName + POST_VIDEO)
         }
         return tmpFile

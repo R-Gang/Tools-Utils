@@ -73,7 +73,4 @@ dependencies {
     implementation Dependencies.anko_sdk25
     implementation Dependencies.anko_sdk25_coroutines
 
-    // 常用基类封装
-//    implementation Dependencies.android_common
-
 }
