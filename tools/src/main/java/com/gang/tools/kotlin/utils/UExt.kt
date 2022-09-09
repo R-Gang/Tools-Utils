@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.net.Uri
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
@@ -95,6 +96,17 @@ fun openNetSetting(activity: Activity) {
     intent.component = cm
     intent.action = "android.intent.action.VIEW"
     activity.startActivityForResult(intent, 0)
+}
+
+/**
+ * 跳转手机浏览器
+ */
+fun gotoWeb(mActivity: Activity, url: String) {
+    val intent = Intent()
+    intent.action = "android.intent.action.VIEW"
+    val uri = Uri.parse(url)
+    intent.data = uri
+    mActivity.startActivity(intent)
 }
 
 

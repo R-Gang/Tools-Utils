@@ -39,8 +39,10 @@ object Support {
     const val junit_ext = "androidx.test.ext:junit:1.1.2"
     const val espresso_core = "androidx.test.espresso:espresso-core:3.3.0"
 
+    const val corektx = "androidx.core:core-ktx:1.8.0"
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.4"
     const val appcompat = "androidx.appcompat:appcompat:1.3.0"
+
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Android.kotlin}"
 
     const val build_gradle = "com.android.tools.build:gradle:${Android.gradle}"

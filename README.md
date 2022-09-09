@@ -4,6 +4,8 @@
 
 引入方式：
 
+[![](https://jitpack.io/v/R-Gang/Tools-Utils.svg)](https://jitpack.io/#R-Gang/Tools-Utils)
+
     allprojects {
         repositories {
             ...

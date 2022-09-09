@@ -63,6 +63,6 @@ dependencies {
 
     // okhttp
     implementation project(path: ':tools')
-    //implementation 'com.github.R-Gang:Tools-Utils:v1.0.0-beta.1@aar'
+    //implementation 'com.github.R-Gang:Tools-Utils:v1.0.1-beta.0@aar'
 
 }
