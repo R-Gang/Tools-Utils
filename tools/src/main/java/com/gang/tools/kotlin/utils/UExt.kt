@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
@@ -18,6 +19,7 @@ import android.text.style.ClickableSpan
 import android.util.*
 import android.view.Gravity
 import android.view.View
+import android.view.View.OnLayoutChangeListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -25,6 +27,7 @@ import android.widget.Toast
 import com.gang.tools.kotlin.ToolsConfig
 import com.gang.tools.kotlin.ToolsConfig.TAG
 import com.gang.tools.kotlin.ToolsConfig.toActivityRequestCode
+import com.gang.tools.kotlin.dimension.screenHeight
 import com.gang.tools.kotlin.weight.ToastCustom
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -32,6 +35,7 @@ import java.io.*
 import java.lang.reflect.Array
 import java.nio.charset.Charset
 import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Matcher
@@ -223,6 +227,51 @@ fun getVersionName(): String? {
             e.printStackTrace()
             "unknown version"
         }
+    }
+    return null
+}
+
+/**
+ * 获取程序包信息
+ */
+fun getPackageInfo(): PackageInfo? {
+    mToolsContext?.apply {
+        return packageManager.getPackageInfo(
+            packageName,
+            PackageManager.GET_CONFIGURATIONS
+        )
+    }
+    return null
+}
+
+/**
+ * 获取APK当前签名文件的SHA1
+ */
+fun SHA1(context: Context): String? {
+    try {
+        val info = context.packageManager.getPackageInfo(
+            context.packageName, PackageManager.GET_SIGNATURES
+        )
+        val cert = info.signatures[0].toByteArray()
+        val md = MessageDigest.getInstance("SHA1")
+        val publicKey = md.digest(cert)
+        val hexString = StringBuffer()
+        for (i in publicKey.indices) {
+            val appendString = Integer.toHexString(
+                0xFF and publicKey[i]
+                    .toInt()
+            )
+                .uppercase()
+            if (appendString.length == 1) hexString.append("0")
+            hexString.append(appendString)
+            hexString.append(":")
+        }
+        val result = hexString.toString()
+        return result.substring(0, result.length - 1)
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    } catch (e: NoSuchAlgorithmException) {
+        e.printStackTrace()
     }
     return null
 }
@@ -712,6 +761,73 @@ interface ClickableSpans {
     }
 }
 
+fun isPortrait(): Boolean {
+    return (mToolsContext?.resources?.configuration?.orientation
+            == Configuration.ORIENTATION_PORTRAIT)
+}
+
+/**
+ * 监听软键盘弹出监听事件
+ *
+ * @param parentLayout         父容器View
+ * @param softKeyboardListener 监听接口
+ * @param lastScreenOrientation 屏幕方向(默认竖屏)
+ */
+fun setKeyboardListener(
+    parentLayout: View?,
+    softKeyboardListener: SoftKeyboardListener?,
+    lastScreenOrientation: Int = Configuration.ORIENTATION_PORTRAIT
+) {
+    if (softKeyboardListener == null || parentLayout == null) {
+        return
+    }
+    parentLayout.addOnLayoutChangeListener(OnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+        val screenHeight: Int = screenHeight
+        val currentScreenOrientation: Int = if (isPortrait()) {
+            Configuration.ORIENTATION_PORTRAIT
+        } else {
+            Configuration.ORIENTATION_LANDSCAPE
+        }
+        //排除横竖屏切换引起的布局变化
+        if (lastScreenOrientation != currentScreenOrientation) {
+            softKeyboardListener.onScreenOrientation(lastScreenOrientation)
+            return@OnLayoutChangeListener
+        }
+        val defaultHeight = screenHeight / 3
+        if (oldBottom != 0 && bottom != 0 && oldBottom - bottom > defaultHeight) {
+            softKeyboardListener.onSoftKeyboardShow(0)
+        } else if (oldBottom != 0 && bottom != 0 && bottom - oldBottom > defaultHeight) {
+            softKeyboardListener.onSoftKeyboardHide(0)
+        }
+    })
+}
+
+/**
+ * 软键盘事件监听接口
+ */
+interface SoftKeyboardListener {
+    /**
+     * 软键盘弹出监听回调
+     *
+     * @param softKeyboardHeight 软键盘高度
+     */
+    fun onSoftKeyboardShow(softKeyboardHeight: Int)
+
+    /**
+     * 软键盘隐藏监听回调
+     *
+     * @param softKeyboardHeight 软键盘高度
+     */
+    fun onSoftKeyboardHide(softKeyboardHeight: Int)
+
+    /**
+     * 屏幕横竖屏改变监听回调
+     *
+     * @param screenOrientation 屏幕方向
+     */
+    fun onScreenOrientation(screenOrientation: Int) {}
+}
+
 //-----------------以下为引入------------------
 
 //当前毫秒
@@ -738,10 +854,6 @@ fun <T : View> T.hide() {
 fun View.visible(show: Boolean) {
     this.visibility = if (show) View.VISIBLE else View.GONE
 }
-
-/*fun View.visible() {
-    this.visibility = View.VISIBLE
-}*/
 
 fun View.invisible() {
     this.visibility = View.INVISIBLE

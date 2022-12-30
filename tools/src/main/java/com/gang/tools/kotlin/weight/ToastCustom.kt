@@ -15,14 +15,15 @@ import com.gang.tools.R
  * @Author:         haoruigang
  * @CreateDate:     2021/9/1 12:09
  */
-class ToastCustom(context: Context?) : Toast(context) {
+class ToastCustom(context: Context?, val toastLayout: Int = R.layout.toast_layout) :
+    Toast(context) {
 
     var mContext: Context? = context
 
     fun view(): View {
         //获取系统的LayoutInflater
         val inflater = mContext?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        return inflater.inflate(R.layout.toast_layout, null)
+        return inflater.inflate(toastLayout, null)
     }
 
     fun showToast(content: String?) {

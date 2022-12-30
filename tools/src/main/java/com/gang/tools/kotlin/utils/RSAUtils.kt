@@ -16,6 +16,7 @@ import javax.crypto.Cipher
  * @CreateDate:     2020/8/3 17:29
  */
 private var publicKey: RSAPublicKey? = null
+private var privateKey: RSAPublicKey? = null
 /**************************** RSA 公钥加密解密 */
 /**
  * 从字符串中加载公钥,从服务端获取
@@ -38,22 +39,43 @@ fun loadPublicKey(pubKey: String?) {
 }
 
 /**
+ * 从字符串中加载公钥,从服务端获取
+ *
+ * @param
+ * @throws Exception 加载私钥时产生的异常
+ */
+fun loadPrivateKey(pubKey: String?) {
+    try {
+        val buffer =
+            Base64.decode(pubKey, Base64.DEFAULT)
+        val keyFactory = KeyFactory.getInstance("RSA")
+        val keySpec =
+            X509EncodedKeySpec(buffer)
+        privateKey =
+            keyFactory.generatePrivate(keySpec) as RSAPublicKey
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+/**
  * 公钥加密过程
  *
  * @param
  * @param plainData 明文数据
+ * @param key       加密钥匙
  * @return
  * @throws Exception 加密过程中的异常信息
  */
 @Throws(Exception::class)
-fun encryptWithRSA(plainData: String): String {
-    if (publicKey == null) {
-        throw NullPointerException("encrypt PublicKey is null !")
+fun encryptWithRSA(plainData: String, key: RSAPublicKey? = publicKey): String {
+    if (key == null) {
+        throw NullPointerException("encrypt Key is null !")
     }
     var cipher: Cipher? = null
     cipher =
         Cipher.getInstance("RSA/ECB/PKCS1Padding") // 此处如果写成"RSA"加密出来的信息JAVA服务器无法解析
-    cipher.init(Cipher.ENCRYPT_MODE, publicKey)
+    cipher.init(Cipher.ENCRYPT_MODE, key)
     val output = cipher.doFinal(plainData.toByteArray(charset("utf-8")))
     // 必须先encode成 byte[]，再转成encodeToString，否则服务器解密会失败
 // byte[] encode = Base64.encode(output, Base64.DEFAULT);
@@ -69,13 +91,13 @@ fun encryptWithRSA(plainData: String): String {
  * @throws Exception 加密过程中的异常信息
  */
 @Throws(Exception::class)
-fun decryptWithRSA(encryedData: String?): String {
-    if (publicKey == null) {
-        throw NullPointerException("decrypt PublicKey is null !")
+fun decryptWithRSA(encryedData: String?, key: RSAPublicKey? = publicKey): String {
+    if (key == null) {
+        throw NullPointerException("decrypt Key is null !")
     }
     var cipher: Cipher? = null
     cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding") // 此处如果写成"RSA"解析的数据前多出来些乱码
-    cipher.init(Cipher.DECRYPT_MODE, publicKey)
+    cipher.init(Cipher.DECRYPT_MODE, key)
     val output =
         cipher.doFinal(Base64.decode(encryedData, Base64.DEFAULT))
     return String(output)

@@ -20,9 +20,9 @@ object App {
 object Android {
     const val kotlin = "1.6.10"
     const val gradle = "7.0.3"
-    const val compileSdkVersion = 31
+    const val compileSdkVersion = 32
     const val minSdkVersion = 26
-    const val targetSdkVersion = 31
+    const val targetSdkVersion = 32
     const val versionCode = 1
     const val versionName = "1.0"
 
@@ -72,7 +72,11 @@ object Dependencies {
         it.maven { url = URI("https://maven.aliyun.com/repository/central") }
         it.maven { url = URI("https://maven.aliyun.com/repository/google") }
         it.maven { url = URI("https://maven.aliyun.com/repository/jcenter") }
-        it.maven { url = URI("https://jitpack.io") }
+        it.maven {
+            url = URI("https://jitpack.io")
+            val authToken = "jp_7hqsbgvlrlh8sua6dainpc08j4"
+            credentials { username = authToken }
+        }
         it.maven { url = URI("https://dl.google.com/dl/android/maven2/") }
         it.maven { url = URI("https://maven.youzanyun.com/repository/maven-releases") }
         it.maven { url = URI("https://maven.google.com") }
