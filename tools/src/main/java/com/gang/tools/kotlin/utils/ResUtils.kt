@@ -188,10 +188,10 @@ fun getAssetFile(url: String): String {
  *
  * @return
  */
-fun readAssetsText(context: Context, fileName: String?): String {
+fun readAssetsText(context: Context, fileName: String): String {
     val sb = StringBuffer("")
     try {
-        val inputStream = context.assets.open(fileName!!)
+        val inputStream = context.assets.open(fileName)
         var inputStreamReader: InputStreamReader? = null
         try {
             inputStreamReader = InputStreamReader(inputStream, "UTF-8")
@@ -215,8 +215,10 @@ fun readAssetsText(context: Context, fileName: String?): String {
 
 //全局字体
 val typefaceAll: Typeface by lazy {
-    Typeface.createFromAsset(mToolsContext?.assets,
-        ToolsConfig.typefaceAll)
+    Typeface.createFromAsset(
+        mToolsContext?.assets,
+        ToolsConfig.typefaceAll
+    )
 }
 
 fun <T : View?, V> applyV(

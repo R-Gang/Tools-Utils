@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.gang.tools.kotlin.ToolsConfig
 import com.gang.tools.kotlin.ToolsConfig.TAG
 import com.gang.tools.kotlin.ToolsConfig.toActivityRequestCode
@@ -917,6 +918,32 @@ fun Activity.toActivityAnimation(intent: Intent, vararg views: Pair<View?, Strin
             ActivityOptions.makeSceneTransitionAnimation(this, *views)
                 .toBundle()
         startActivity(intent, toBundle)
+    }
+}
+
+/**
+ * 防连点淡入淡出toActivityAnimation (Fragment实用)
+ */
+fun Fragment.toActivityAnimation(intent: Intent, vararg views: Pair<View?, String>) {
+    if (System.currentTimeMillis() - first > 500L) {
+        first = System.currentTimeMillis()
+        val toBundle =
+            ActivityOptions.makeSceneTransitionAnimation(this.activity, *views)
+                .toBundle()
+        this.activity?.startActivity(intent, toBundle)
+    }
+}
+
+/**
+ * 防连点toActivityForResult
+ */
+inline fun <reified T : Activity> Fragment.toActivityForResult(
+    requestCode: Int = toActivityRequestCode,
+    vararg params: kotlin.Pair<String, Any?>,
+) {
+    if (System.currentTimeMillis() - first > 500L) {
+        first = System.currentTimeMillis()
+        (context as Activity).startActivityForResult<T>(requestCode, *params)
     }
 }
 

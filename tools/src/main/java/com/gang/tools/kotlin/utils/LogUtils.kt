@@ -51,7 +51,7 @@ object LogUtils {
      */
     fun d(context: Context, message: String?) {
         val tag = context.javaClass.simpleName
-        d(tag, message)
+        if (D) d(tag, message)
     }
 
     /**
@@ -62,13 +62,7 @@ object LogUtils {
      */
     fun d(clazz: Class<*>, message: String?) {
         val tag = clazz.simpleName
-        d(tag, message)
-    }
-
-    fun tag(msg: String?) {
-        if (E) {
-            Log.e("TAG", if (msg == null) "" else msg + "")
-        }
+        if (D) d(tag, message)
     }
 
     /**
@@ -80,7 +74,7 @@ object LogUtils {
      */
     fun d(context: Context, format: String, vararg args: Any?) {
         val tag = context.javaClass.simpleName
-        d(tag, buildMessage(format, *args))
+        if (D) d(tag, buildMessage(format, *args))
     }
 
     /**
@@ -92,7 +86,7 @@ object LogUtils {
      */
     fun d(clazz: Class<*>, format: String, vararg args: Any?) {
         val tag = clazz.simpleName
-        d(tag, buildMessage(format, *args))
+        if (D) d(tag, buildMessage(format, *args))
     }
 
     /**
@@ -102,7 +96,7 @@ object LogUtils {
      * @param message
      */
     fun i(tag: String?, message: String?) {
-        Log.i(tag, message.toString())
+        if (I) Log.i(tag, message.toString())
     }
 
     /**
@@ -113,7 +107,7 @@ object LogUtils {
      */
     fun i(context: Context, message: String?) {
         val tag = context.javaClass.simpleName
-        i(tag, message)
+        if (I) i(tag, message)
     }
 
     /**
@@ -124,7 +118,7 @@ object LogUtils {
      */
     fun i(clazz: Class<*>, message: String?) {
         val tag = clazz.simpleName
-        i(tag, message)
+        if (I) i(tag, message)
     }
 
     /**
@@ -136,7 +130,7 @@ object LogUtils {
      */
     fun i(context: Context, format: String, vararg args: Any?) {
         val tag = context.javaClass.simpleName
-        i(tag, buildMessage(format, *args))
+        if (I) i(tag, buildMessage(format, *args))
     }
 
     /**
@@ -148,7 +142,13 @@ object LogUtils {
      */
     fun i(clazz: Class<*>, format: String, vararg args: Any?) {
         val tag = clazz.simpleName
-        i(tag, buildMessage(format, *args))
+        if (I) i(tag, buildMessage(format, *args))
+    }
+
+    fun tag(msg: String?) {
+        if (E) {
+            Log.e("TAG", if (msg == null) "" else msg + "")
+        }
     }
 
     /**
@@ -158,7 +158,7 @@ object LogUtils {
      * @param message
      */
     fun e(tag: String?, message: String?) {
-        Log.e(tag, message.toString())
+        if (E) Log.e(tag, message.toString())
     }
 
     /**
@@ -169,7 +169,7 @@ object LogUtils {
      */
     fun e(context: Context, message: String?) {
         val tag = context.javaClass.simpleName
-        e(tag, message)
+        if (E) e(tag, message)
     }
 
     /**
@@ -180,7 +180,7 @@ object LogUtils {
      */
     fun e(clazz: Class<*>, message: String?) {
         val tag = clazz.simpleName
-        e(tag, message)
+        if (E) e(tag, message)
     }
 
     /**
@@ -192,7 +192,7 @@ object LogUtils {
      */
     fun e(context: Context, format: String, vararg args: Any?) {
         val tag = context.javaClass.simpleName
-        e(tag, buildMessage(format, *args))
+        if (E) e(tag, buildMessage(format, *args))
     }
 
     /**
@@ -204,7 +204,7 @@ object LogUtils {
      */
     fun e(clazz: Class<*>, format: String, vararg args: Any?) {
         val tag = clazz.simpleName
-        e(tag, buildMessage(format, *args))
+        if (E) e(tag, buildMessage(format, *args))
     }
 
     /**
@@ -213,7 +213,7 @@ object LogUtils {
     fun prepareLog(tag: String?) {
         val current = Calendar.getInstance()
         startLogTimeInMillis = current.timeInMillis
-        Log.d(tag, "日志计时开始：" + startLogTimeInMillis)
+        if (D) Log.d(tag, "日志计时开始：$startLogTimeInMillis")
     }
 
     /**
@@ -242,7 +242,7 @@ object LogUtils {
     fun d(tag: String?, message: String, printTime: Boolean) {
         val current = Calendar.getInstance()
         val endLogTimeInMillis = current.timeInMillis
-        Log.d(tag, message + ":" + (endLogTimeInMillis - startLogTimeInMillis) + "ms")
+        if (D) Log.d(tag, message + ":" + (endLogTimeInMillis - startLogTimeInMillis) + "ms")
     }
 
     /**
@@ -254,7 +254,7 @@ object LogUtils {
      */
     fun d(context: Context, message: String, printTime: Boolean) {
         val tag = context.javaClass.simpleName
-        d(tag, message, printTime)
+        if (D) d(tag, message, printTime)
     }
 
     /**
@@ -266,7 +266,7 @@ object LogUtils {
      */
     fun d(clazz: Class<*>, message: String, printTime: Boolean) {
         val tag = clazz.simpleName
-        d(tag, message, printTime)
+        if (D) d(tag, message, printTime)
     }
 
     /**
